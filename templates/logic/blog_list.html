@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Блог</title>
+</head>
+<body>
+    <h1>Статьи блога</h1>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a> - {{ post.published_date }}
+            </li>
+        {% endfor %}
+    </ul>
+    <div>
+        {% if is_paginated %}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            {% endif %}
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
