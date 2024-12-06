@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "coursework-6"
+version = "0.1.0"
+description = ""
+authors = ["Hilshat76"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.1"
+psycopg2-binary = "^2.9.9"
+pillow = "^10.4.0"
+ipython = "^8.27.0"
+black = "^24.8.0"
+python-dotenv = "^1.0.1"
+django-apscheduler = "^0.6.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

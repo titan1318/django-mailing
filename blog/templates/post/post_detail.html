@@ -1,0 +1,53 @@
+{% extends 'mailing/index.html' %}
+{% load blog_tags %}
+{% block content %}
+
+    <div class="container px-4 py-5" id="custom-cards">
+
+        <div class="btn-group back-button" role="group" aria-label="Button group with nested dropdown">
+        <a class="btn btn-primary" href="{% url 'blog:post_all' %}" role="button" style="width: 130px;">Назад</a>
+
+            {% if perms.blog.change_post %}
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Действие
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'blog:post_update' post.pk %}">Редактировать</a></li>
+                    <li><a class="dropdown-item" href="{% url 'blog:post_delete' post.pk %}">Удалить</a></li>
+                </ul>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <h1 class="text-secondary-color"><strong>{{ post.title }}</strong></h1>
+
+        <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
+                 style="background-image:
+                         {% if post.preview %}
+                             url('{{ post.preview.url }}');
+                         {% else %}
+                             url('/static/images/post.png');
+                         {% endif %}
+                         background-size: cover;">
+                <div class="card-body">
+                    <div style="text-align: right;">
+                        <div style="display: inline-block; background-color: white; border-radius: 8px; padding: 5px;">
+                            <p style="color: black; margin: 0;"><strong>{{ post.number_of_views }}&#x1F441;</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="text-secondary-color" style="text-align: justify;">
+            <strong>{{ post.content }}</strong>
+        </h3>
+    </div>
+
+
+
+
+{% endblock %}

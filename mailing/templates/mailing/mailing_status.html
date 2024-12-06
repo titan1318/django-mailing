@@ -1,0 +1,36 @@
+<title>Статусы рассылок</title>
+
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+    <body>
+    <h1>Статусы рассылок</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Название рассылки</th>
+            <th>Статус</th>
+            <th>Попытки</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for mailing in mailings %}
+            <tr>
+                <td>{{ mailing.title }}</td>
+                <td>{{ mailing.get_status_display }}</td>
+                <td>
+                    <ul>
+                        {% for attempt in mailing.attempts.all %}
+                            <li>{{ attempt.at_last_attempt }}
+                                - {{ attempt.get_statu_display }}: {{ attempt.server_response }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </body>
+
+{% endblock %}

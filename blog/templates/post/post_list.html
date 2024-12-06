@@ -1,0 +1,134 @@
+<title>Статьи</title>
+
+{% extends 'mailing/index.html' %}
+{% load blog_tags %}
+{% block content %}
+
+
+    <main class="container">
+        <!-- Раздел последнего поста -->
+        <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+            <div class="col-lg-10 px-0">
+                <h1 class="display-4 fst-italic">{{ latest_post.title }}</h1>
+                <p class="lead my-3">{{ latest_post.content|truncatewords:30 }}</p>
+                <p class="lead mb-0"><a href="{% url 'blog:post_detail' latest_post.id %}"
+                                        class="text-body-emphasis fw-bold">Продолжить читать...</a></p>
+            </div>
+        </div>
+
+        <!-- Раздел избранных постов -->
+        <div class="row mb-2">
+            <div class="row mb-2">
+                {% for post in featured_posts %}
+                    <div class="col-md-6">
+                        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                            <div class="col p-4 d-flex flex-column position-static">
+                                <h3 class="mb-0">{{ post.title }}</h3>
+                                <div class="mb-1 text-body-secondary">{{ post.created_at }}</div>
+                                <p class="card-text mb-auto">{{ post.content|truncatewords:6 }}</p>
+                                <a href="{% url 'blog:post_detail' post.id %}"
+                                   class="icon-link gap-1 icon-link-hover stretched-link">Читать...</a>
+                            </div>
+                            {% if post.preview %}
+                                <div class="col-auto d-none d-lg-block">
+                                    <img src="{{ post.preview.url }}" width="200" height="200">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Раздел горячих новостей -->
+        <div class="row g-5">
+            <div class="col-md-8">
+                <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                    Горячие новости
+                </h3>
+
+                <article class="blog-post">
+                    <h2 class="display-5 link-body-emphasis mb-1">Пример записи в блоге</h2>
+                    <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
+                    <p>В этой записи блога показано несколько различных типов контента, поддерживаемых и стилизованных с
+                        помощью Bootstrap. Базовая типографика, списки, таблицы, изображения, код и многое другое
+                        поддерживаются, как и ожидалось.</p>
+
+                    <hr>
+                    <p>Это некий дополнительный контент-заполнитель абзаца. Он был написан, чтобы заполнить доступное
+                        пространство и показать, как более длинный фрагмент текста влияет на окружающее содержимое. Мы
+                        будем часто повторять его, чтобы демонстрация не прерывалась, поэтому будьте начеку, чтобы не
+                        пропустить эту точно такую ​​же строку текста.</p>
+
+                    <h2>Цитаты из блоков</h2>
+                    <p>Это пример цитаты в действии:</p>
+                    <blockquote class="blockquote">
+                        <p>Цитируемый текст приводится здесь.</p>
+                    </blockquote>
+                    <p>Это некий дополнительный контент-заполнитель абзаца. Он был написан, чтобы заполнить доступное
+                        пространство и показать, как более длинный фрагмент текста влияет на окружающее содержимое. Мы
+                        будем часто повторять его, чтобы демонстрация не прерывалась, поэтому будьте начеку, чтобы не
+                        пропустить эту точно такую ​​же строку текста.</p>
+                </article>
+
+                <article class="blog-post">
+                    <h2 class="display-5 link-body-emphasis mb-1">Еще один пост в блоге</h2>
+                    <p class="blog-post-meta">December 23, 2020 by <a href="#">Jacob</a></p>
+
+                    <p>Это некий дополнительный контент-заполнитель абзаца. Он был написан, чтобы заполнить доступное
+                        пространство и показать, как более длинный фрагмент текста влияет на окружающее содержимое. Мы
+                        будем часто повторять его, чтобы демонстрация не прерывалась, поэтому будьте начеку, чтобы не
+                        пропустить эту точно такую ​​же строку текста.</p>
+                    <blockquote>
+                        <p>Здесь можно привести более длинную цитату, возможно, с <strong>выделенным текстом</strong> в
+                            середине.</p>
+                    </blockquote>
+                    <p>Это некий дополнительный контент-заполнитель абзаца. Он был написан, чтобы заполнить доступное
+                        пространство и показать, как более длинный фрагмент текста влияет на окружающее содержимое. Мы
+                        будем часто повторять его, чтобы демонстрация не прерывалась, поэтому будьте начеку, чтобы не
+                        пропустить эту точно такую ​​же строку текста.</p>
+                </article>
+            </div>
+
+            <!-- Раздел информации о блоге -->
+            <div class="col-md-4">
+                <div class="position-sticky" style="top: 2rem;">
+                    <div class="p-4 mb-3 bg-body-tertiary rounded">
+                        <h4 class="fst-italic">О нас</h4>
+                        <p class="mb-0">Настройте этот раздел, чтобы рассказать посетителям немного о вашем издании,
+                            авторах, контенте или о чем-то совершенно другом. Полностью на ваше усмотрение.</p>
+                    </div>
+
+                    <!-- Раздел списка постов -->
+                    <div>
+                        <h4 class="fst-italic">Шесть последних постов</h4>
+                        <ul class="list-unstyled">
+                            {% for post in top_post %}
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                       href="{% url 'blog:post_detail' post.id %}">
+                                        {% if post.preview %}
+                                            <img src="{{ post.preview | media_filter }}" alt="mdo" width="100"
+                                                 height="100">
+                                        {% else %}
+                                            <img src="/static/images/post.png" alt="mdo" width="100"
+                                                 height="100">
+                                        {% endif %}
+                                        <div class="col-lg-8">
+                                            <h6 class="mb-0">{{ post.title }}</h6>
+                                            <small class="text-body-secondary">{{ post.created_at }}</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            <a href="{% url 'blog:post_all' %}">Все новости...</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+{% endblock %}

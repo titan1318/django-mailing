@@ -1,0 +1,105 @@
+{% load static %}
+
+<header class="p-3 mb-3 bg-dark border-bottom fixed-top">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{% url 'users:home' %}"
+               class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <img src="{% static 'images/Hilshat76-Python-001.jpg' %}" alt="mdo" width="40" height="40"
+                     class="rounded-circle">
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <style>
+                    .custom-link {
+                        color: white;
+                    }
+                </style>
+
+                <li><a href="{% url 'users:home' %}" class="nav-link px-2 custom-link">Главная</a></li>
+                <li><a href="{% url 'mailing:mailing_list' %}" class="nav-link px-2 custom-link">Рассылки</a></li>
+                <li><a href="{% url 'mailing:message_list' %}" class="nav-link px-2 custom-link">Сообщения</a></li>
+                <li><a href="{% url 'mailing:client_list' %}" class="nav-link px-2 custom-link">Клиенты</a></li>
+                <li><a href="{% url 'blog:post_list' %}" class="nav-link px-2 custom-link">Статьи</a></li>
+
+                {% if perms.users.change_user %}
+                    <li><a href="{% url 'users:user_list' %}" class="nav-link px-2 custom-link">Пользователи</a></li>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    {% if request.resolver_match.url_name == 'mailing_list' or request.resolver_match.url_name == 'mailing_detail' %}
+                        <li><a href="{% url 'mailing:mailing_create' %}" class="nav-link ms-5 px-2 custom-link">Создать
+                            рассылку</a></li>
+                    {% elif request.resolver_match.url_name == 'message_list' or request.resolver_match.url_name == 'message_detail' %}
+                        <li><a href="{% url 'mailing:message_create' %}" class="nav-link ms-5 px-2 custom-link">Создать
+                            сообщение</a></li>
+                    {% elif request.resolver_match.url_name == 'client_list' or request.resolver_match.url_name == 'client_detail' %}
+                        <li><a href="{% url 'mailing:client_create' %}" class="nav-link ms-5 px-2 custom-link">Добавить
+                            клиента</a></li>
+                    {% endif %}
+
+                    {% if perms.blog.change_post %}
+                        {% if request.resolver_match.url_name == 'post_list' or request.resolver_match.url_name == 'post_detail' or request.resolver_match.url_name == 'post_all' %}
+                            <li><a href="{% url 'blog:post_create' %}" class="nav-link ms-5 px-2 custom-link">Добавить статью</a></li>
+                        {% endif %}
+                    {% endif %}
+
+                {% endif %}
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control" placeholder="Поиск..." aria-label="Search">
+            </form>
+
+            <div class="dropdown text-end">
+                <a href="#" class="d-block custom-link text-decoration-none dropdown-toggle" id="dropdownUser1"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if user.is_authenticated %}
+                        {% if user.avatar %}
+                            <img src="/media/{{ user.avatar }}" alt="mdo" width="40" height="40" class="rounded-circle">
+                        {% else %}
+                            <img src="/media/user/user.jpg" alt="mdo" width="40" height="40" class="rounded-circle">
+                        {% endif %}
+                    {% else %}
+                        <img src="/media/user/user.jpg" alt="mdo" width="40" height="40" class="rounded-circle">
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                    {% if user.is_authenticated %}
+                        {% if user.is_authenticated %}
+                            <h7 class="text-end m-2"><strong>{{ user.email }}</strong></h7>
+                        {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'mailing:mailing_create' %}">Создать рассылки</a></li>
+                        <li><a class="dropdown-item" href="{% url 'mailing:message_create' %}">Создать сообщение</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'mailing:client_create' %}">Добавить клиента</a></li>
+
+                        {% if perms.blog.change_post %}
+                        <li><a class="dropdown-item" href="{% url 'blog:post_create' %}">Добавить статью</a></li>
+                        {% endif %}
+
+
+
+
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a></li>
+                        <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
+
+                    {% else %}
+                        <li><a class="dropdown-item" href="{% url 'users:login' %}">Войти</a></li>
+                        <li><a class="dropdown-item" href="{% url 'users:register' %}">Регистрация</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

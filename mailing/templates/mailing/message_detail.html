@@ -1,0 +1,44 @@
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+
+    <main class="container">
+        <div class="row mb-2">
+            <div class="d-grid gap-2 col-8 mx-auto">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-lg h-md-250 position-relative bg-white">
+
+                    <div class="d-grid gap-2 col-2 ms-4 mt-4">
+                        {% if message.preview %}
+                            <img src="{{ message.preview | media_filter }}" alt="mdo" width="120" height="120">
+                        {% else %}
+                            <img src="/media/message/preview/email.jpg" alt="mdo" width="120" height="120">
+                        {% endif %}
+                    </div>
+
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h2 class="mb-0 ms-3"><strong>{{ message.title }}</strong></h2>
+                        <div class="mb-1 mb-4 text-body-secondary">от {{ message.created_at }}</div>
+                        <h5 class="mb-0 mb-1"><strong>Текст сообщения:</strong></h5>
+                        <h5 class="mb-0 mb-3">{{ message.message }}</h5>
+
+
+
+
+                        <div class="d-grid gap-2 d-md-flex mt-5 justify-content-md-end">
+                            <a class="btn btn-primary" href="{% url 'mailing:message_update' message.pk %}" role="button"
+                               style="width: 130px;">Редактировать</a>
+                            <a class="btn btn-primary" href="{% url 'mailing:message_delete' message.pk %}" role="button"
+                               style="width: 130px;">Удалить</a>
+                            <a class="btn btn-primary" href="{% url 'mailing:message_list' %}" role="button"
+                               style="width: 130px;">Назад</a>
+{#                        </div>#}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

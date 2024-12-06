@@ -1,0 +1,39 @@
+<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal.css"/>
+<link type="text/css" rel="stylesheet" href="https://bootstraptema.ru/plugins/2016/remodal/remodal-default-theme.css"/>
+<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script src="https://bootstraptema.ru/plugins/2016/remodal/remodal.js"></script>
+
+<br><br><br>
+
+<div class="remodal" data-remodal-id="modal" data-remodal-options="hashTracking: false, closeOnOutsideClick: false">
+    <h1>Вы уверены, что хотите удалить эту статью?</h1>
+    <p>
+        Пожалуйста, подтвердите, что вы хотите удалить данную статью. Все связанные данные будут удалены.
+    </p>
+    <br>
+
+    <form id="deleteForm" action="{% url 'blog:post_delete' post.pk %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-danger btn-block remodal-confirm">Подтвердить</button>
+            </div>
+            <div class="col-xs-6">
+                <button id="closeButton" type="button" class="btn btn-default btn-block remodal-cancel">Закрыть</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+  $(document).ready(function () {
+    var inst = $('[data-remodal-id=modal]').remodal();
+    inst.open();
+
+    // Redirect on close button click without deleting
+    $('#closeButton').on('click', function () {
+      window.location.href = "{% url 'blog:post_all' %}";
+    });
+  });
+</script>

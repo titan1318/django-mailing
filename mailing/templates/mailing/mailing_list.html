@@ -1,0 +1,53 @@
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+    <!-- Блок рассылок -->
+    {% for mailing in mailing_list %}
+        <main class="container">
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-0 shadow-lg h-md-250 position-relative bg-white">
+
+                        <div class="col-2 ms-1 mt-1 mb-1 d-none d-lg-block">
+                            {% if mailing.preview %}
+                                <img src="{{ mailing.preview | media_filter }}" alt="mdo" width="200" height="200">
+                            {% else %}
+                                <img src="/media/mailing/preview/email.jpg" alt="mdo" width="200" height="200">
+                            {% endif %}
+                        </div>
+
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <strong class="d-inline-block mb-2 text-success-emphasis">{{ mailing.message.title }}</strong>
+                            <h3 class="mb-0"><strong>{{ mailing.title }}</strong></h3>
+
+                            <div class="mb-1 text-body-secondary">{{ mailing.created_at }}</div>
+                            <h4 class="mb-auto">{{ mailing.message.message | truncatechars:50 }}</h4>
+                            <hr>
+                            <div class="row">
+                                <div class="col" class="mb-1 text-body-secondary">Периодичность
+                                    отправки: {{ mailing.periodicity }}</div>
+                                <div class="col" class="mb-1 text-body-secondary">Статус: {{ mailing.status }}</div>
+                                <div class="col text-danger">
+                                    {% if not mailing.is_active %}
+                                        <strong>Рассылка отключена, обратитесь к администратору</strong>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <a href="{% url 'mailing:mailing_detail' mailing.pk %}"
+                               class="icon-link gap-1 icon-link-hover stretched-link"></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+    {% endfor %}
+
+        <a class="btn btn-primary" href="{% url 'mailing:mailing_status' %}"
+                                   role="button" style="width: 130px;">Отчёт</a>
+
+{% endblock %}

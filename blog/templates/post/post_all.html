@@ -1,0 +1,50 @@
+<title>Список статей</title>
+
+{% extends 'mailing/index.html' %}
+{% load blog_tags %}
+{% block content %}
+
+
+    <main class="container">
+
+        <!-- Раздел горячих новостей -->
+        <div class="row g-5">
+            <div class="col-md-12">
+                <div class="position-sticky" style="top: 2rem;">
+                    <a class="btn back-button btn-primary" href="{% url 'blog:post_list' %}" role="button" style="width: 130px;">Назад</a>
+
+                    <!-- Раздел списка постов -->
+                    <div>
+                        <h1 class="fst-italic">Список постов</h1>
+                        <ul class="list-unstyled">
+                            {% for post in post_list %}
+                                <li>
+                                    <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                                       href="{% url 'blog:post_detail' post.id %}">
+
+                                        {% if post.preview %}
+                                            <img src="{{ post.preview | media_filter }}" alt="mdo" width="100"
+                                                 height="100">
+                                        {% else %}
+                                            <img src="/static/images/post.png" alt="mdo" width="100"
+                                                 height="100">
+                                        {% endif %}
+
+                                        <div class="col-lg-11">
+                                            <h6 class="mb-0">{{ post.title }}</h6>
+                                            <small class="text-body-secondary">{{ post.created_at }}</small>
+                                            <h6 class="text-body-secondary" ALIGN="justify">{{ post.content|truncatewords:30 }}</h6>
+
+                                            <p style="color: black; margin: 0;"><strong>{{ post.number_of_views }}&#x1F441;</strong></p>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

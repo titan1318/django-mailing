@@ -1,0 +1,37 @@
+<title>Сообщения</title>
+
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+    {% for message in object_list %}
+        <div class="container">
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row shadow-lg h-md-250 position-relative bg-white">
+
+                        <div class="col-2 mt-1 mb-1 d-none d-lg-block">
+                            {% if message.preview %}
+                                <img src="{{ message.preview | media_filter }}" alt="mdo" width="100"
+                                     height="100">
+                            {% else %}
+                                <img src="/media/message/preview/email.jpg" alt="mdo" width="100"
+                                     height="100">
+                            {% endif %}
+                        </div>
+
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h4 class=><strong>{{ message.title | truncatechars:35 }}</strong></h4>
+                            <div class="text-body-secondary">{{ message.created_at }}</div>
+                            <a href="{% url 'mailing:message_detail' message.pk %}"
+                               class="icon-link gap-1 icon-link-hover stretched-link"></a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

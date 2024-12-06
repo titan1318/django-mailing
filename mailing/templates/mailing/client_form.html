@@ -1,0 +1,42 @@
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+    <main class="container">
+        <div class="row mb-2">
+            <div class="d-grid gap-2 col-8 mx-auto">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-lg h-md-250 position-relative bg-white">
+
+
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <!-- Блок с формой-->
+                        <form method="post" enctype="multipart/form-data">  <!-- Добавьте метод POST -->
+                            <div class="card-body">
+
+                                {% csrf_token %}
+                                {{ form.as_p }}  <!-- Поля формы будут автоматически отрисованы -->
+
+                            </div>
+
+                            <!-- Нижний блок с кнопками-->
+                            <div class="d-grid gap-2 d-md-flex mt-5 justify-content-md-end">
+                                <button type="submit" class="btn btn-primary" role="button" style="width: 130px;">
+                                    {% if object %}
+                                        Сохранить
+                                    {% else %}
+                                        Создать
+                                    {% endif %}
+                                </button>
+                                <a class="btn btn-primary" href="{% url 'mailing:client_list' %}" role="button"
+                                   style="width: 130px;">Назад</a>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+<title>Пользователи</title>
+
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+    <main class="container">
+        <div class="row mb-2">
+            <div class="d-grid gap-2 col-12 mx-auto">
+                <h4 class="mb-0 mt-3 mb-3 text-end">В списке {{ users.count }} {{ users.count | users_word_form }}.</h4>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+                <table class="table">
+
+                    <thead>
+                    <tr>
+                        <th>Пользователь</th>
+                        <th>Имя пользователя</th>
+                        <th>Телефон</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td><h5 class="text-success">{{ user.email }}</h5></td>
+                            <td><h5 class="text-success">{{ user.first_name }}</h5></td>
+                            <td><h5 class="text-success">{{ user.phone }}</h5></td>
+
+                            <td>{% if user.is_active %}
+                                <h5 class="text-success">Active</h5>
+                            {% else %}
+                                <h5 class="text-danger">Inactive</h5>
+                            {% endif %}
+                            </td>
+
+                            <td>
+                                {% csrf_token %}
+                                <a href="{% url 'users:toggle_activation' user.pk %}">
+                                    <img src={% if user.is_active %} "/static/images/activated.png" {% else %}
+                                        "/static/images/deactivated.png" {% endif %} width="70" height="30" class="rounded float-end"></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

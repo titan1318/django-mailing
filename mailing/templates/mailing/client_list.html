@@ -1,0 +1,54 @@
+<title>Клиенты</title>
+
+{% extends 'mailing/index.html' %}
+{% load mailing_tags %}
+{% block content %}
+
+
+
+    <main class="container">
+        <div class="row mb-2">
+            <div class="d-grid gap-2 col-12 mx-auto">
+
+                <table class="table">
+
+                    <h4 class="mb-0 mt-3 mb-3 text-end">В списке {{ client_list.count }} {{ client_list.count | clients_word_form }}.</h4>
+
+                    {% for client in client_list %}
+                        <tbody>
+                        <tr>
+                            <td scope="row">
+                                <a href="{% url 'mailing:client_detail' client.pk %}"
+                                   class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                                    <img src="/media/client/client 002.jpg" alt="mdo" width="40" height="40"
+                                         class="rounded-circle">
+                                </a>
+                            </td>
+                            <td>{{ client.first_name }} {{ client.last_name }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.comment  | truncatechars:70 }}</td>
+                            <td>
+                                <div class="row">
+                                    <a href="{% url 'mailing:client_update' client.pk %}" class="col"
+                                       class="d-flex align-items-center text-dark text-decoration-none">
+                                        <img src="/static/images/edit.jpg" alt="mdo" width="40" height="40"
+                                             class="rounded-circle">
+                                    </a>
+                                    <a href="{% url 'mailing:client_delete' client.pk %}" class="col"
+                                       class="d-flex align-items-center text-dark text-decoration-none">
+                                        <img src="/static/images/delete.png" alt="mdo" width="40" height="40"
+                                             class="rounded-circle">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </main>
+
+
+{% endblock %}

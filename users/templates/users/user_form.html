@@ -1,0 +1,67 @@
+{% extends 'mailing/index.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="modal modal-sheet position-static d-block p-4 py-md-0" tabindex="-1" role="dialog" id="modalSignin">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Профиль</h1>
+                </div>
+
+                <div class="modal-body p-5 pt-0">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" name="email" value={{ user.email }}
+                                    maxlength="254" required id="id_username">
+                            <label for="id_email">Email:</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" name="first_name"
+                                   value={{ user.first_name }}
+                                           maxlength="50" required id="id_first_name">
+                            <label for="id_first_name">Имя:</label>
+                        </div>
+
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" name="phone" value={{ user.phone }}
+                                    maxlength="35" required id="id_phone">
+                            <label for="id_phone">Телефон:</label>
+                        </div>
+
+                        <p>
+                            <label for="id_avatar">Avatar:
+                                {% if user.avatar %}
+                                    <div>
+                                        На данный момент: <a href="/media/{{ user.avatar }}"><img src="/media/{{ user.avatar }}" alt="mdo" width="40" height="40"
+                                         class="rounded-circle"></a>
+                                    </div>
+                                    <input type="checkbox" name="avatar-clear" id="avatar-clear_id">
+                                    <label for="avatar-clear_id">Очистить</label><br>
+                                {% else %}
+                                    Отсутствует
+                                {% endif %}
+                            </label>
+
+                        <div>
+                            <input type="file" name="avatar" accept="image/*" id="id_avatar">
+                            <input type="hidden" name="password" disabled id="id_password">
+                        </div>
+                        </p>
+
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Сохранить</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
